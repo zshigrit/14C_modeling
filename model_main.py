@@ -38,8 +38,8 @@ for day in np.arange(years*365):
     C_pom = C_pom + pi * Fi_day + Fap - Fpa - Fpl 
     C_lmwc = C_lmwc + (1-pi) * Fi_day + Fpl + Fml - Fl - Flm - Flb
     C_agg = C_agg + Fma + Fpa - Fagg
-    C_maom = C_maom + Flm + Fbm + Fam - Fma
-    C_mic = C_mic + Flb - Fbm - Fmr  
+    C_maom = C_maom + Flm + Fbm + Fam - Fma - Fml
+    C_mic = C_mic + Flb * CUE - Fbm - Fmr  
     #
     # 
     C_pom_record = np.append(C_pom_record,C_pom) 
