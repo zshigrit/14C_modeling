@@ -22,7 +22,7 @@ for day in np.arange(years*365):
     # Equation 2: dL/dt = Fi(1-pi)-Fl+Fpl-Flm-Flb # low molecular weight carbon
     Fl = Kl * C_lmwc * St * Sw 
     Flm = C_lmwc * (Klm * Qmax * C_lmwc/(1+(Klm * C_lmwc)) - C_maom ) / Qmax * St *Sw 
-    Flb = Vlm * C_lmwc * C_mic / (C_mic + Klb) * St * Sw * 0.3 # * (CUEref - CUEt * (T - Tref)) (Flagged)
+    Flb = Vlm * C_lmwc * C_mic / (C_mic + Klb) * St * Sw # * (CUEref - CUEt * (T - Tref)) (Flagged)
     # 0.3 is CUE subject to change
     # Equation 3: dC_agg/dt = Fma+Fpa-Fa
     Fma = Vma * C_maom /(Kma + C_maom) * (1 - C_agg/Amax) * St * Sw
@@ -31,9 +31,12 @@ for day in np.arange(years*365):
     Fam = Fagg * (1-pa) 
     # Equation 5: dMIC/dt = Flb-Fbm-Fmr
     Fmr = Kmic * C_mic * St * Sw 
+    # newly added from Xu model description
+    # Xu found this process is not important
+    Fml = Vml * (C_maom - M_Lmin) / (Kml + C_maom - M_Lmin) * St * Sw
     # state variables 
     C_pom = C_pom + pi * Fi_day + Fap - Fpa - Fpl 
-    C_lmwc = C_lmwc + (1-pi) * Fi_day + Fpl - Fl - Flm - Flb
+    C_lmwc = C_lmwc + (1-pi) * Fi_day + Fpl + Fml - Fl - Flm - Flb
     C_agg = C_agg + Fma + Fpa - Fagg
     C_maom = C_maom + Flm + Fbm + Fam - Fma
     C_mic = C_mic + Flb - Fbm - Fmr  
